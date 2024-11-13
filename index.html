@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>andrei mows the lawn</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            -webkit-transition: 1.5s;
+            transition: 1.5s;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            -webkit-transition: 1.5s;
+            transition: 1.5s;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 5vh;
+        }
+        .knob-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 5vh;
+            gap: 10vw;
+        }
+
+        .responsive-video {
+            width: 90%;
+            height: auto;
+            max-width: 800px;
+            margin: auto;
+            display: flex;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: 1.5s;
+            transition: 1.5s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: 1.5s;
+            transition: 1.5s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #666;
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #666;
+        }
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">andrei mows the lawn</h1>
+    <div class="container"></div>
+        <video muted autoplay loop class="responsive-video">
+            <source src="mov-0.25-smooth.MOV" type="video/mp4">
+            no video :(
+        </video>
+        <audio id="audio" preload="auto" src="nocturne-imslp.mp3" loop style="display: none;">
+            no audio :(
+        </audio>
+        <audio id="pagliacci" preload="auto" src="pagliacci-static.mp3" style="display: none;">
+            no audio :(
+        </audio>
+        <audio id="rain" preload="auto" loop src="rain.mp3" style="display: none;">
+            no audio :(
+        </audio>
+    </div>
+
+    <div class="knob-container">
+        <input type="button" class="dial" value="100">
+        <label class="switch">
+            <input type="checkbox" id="night-check" onclick="toggleNocturne(this)">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <script>
+        $(function() {
+            $(".dial").knob({
+                'min': 0,
+                'max': 500,
+                'step': 1,
+                'width': 100,
+                'height': 100,
+                'fgColor': "#666",
+                'bgColor': "#d1d5db",
+                'angleOffset': -125,
+                'angleArc': 250,
+                'displayInput': false,
+                'thickness': 0.2,
+                'cursor': 10,
+                'change': function (v) {
+                    document.querySelector('video').playbackRate = v / 100;
+                }
+            });
+        });
+
+        function fadeInAudio(audio, duration) {
+            audio.volume = 0;
+            audio.play();
+            let step = 0.1;
+            let interval = duration / (1 / step);
+
+            let fadeIn = setInterval(function() {
+                if (audio.volume < 1.0) {
+                    audio.volume = Math.min(audio.volume + step, 1.0);
+                } else {
+                    clearInterval(fadeIn);
+                }
+            }, interval);
+        }
+
+        function fadeInAudioToVolume(audio, duration, volume) {
+            audio.volume = 0;
+            audio.play();
+            let step = 0.1;
+            let interval = duration / (1 / step);
+
+            let fadeIn = setInterval(function() {
+                if (audio.volume < volume) {
+                    audio.volume = Math.min(audio.volume + step, volume);
+                } else {
+                    clearInterval(fadeIn);
+                }
+            }, interval);
+        }
+
+        function fadeOutAudio(audio, duration) {
+            let step = 0.1;
+            let interval = duration / (1 / step);
+
+            let fadeOut = setInterval(function() {
+                if (audio.volume > 0.0) {
+                    audio.volume = Math.max(audio.volume - step, 0.0);
+                } else {
+                    audio.pause();
+                    clearInterval(fadeOut);
+                }
+            }, interval);
+        }
+
+        function resetAudio(audio) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function toggleNocturne(checkbox) {
+            const audio = $("#audio")[0];
+
+            if (checkbox.checked) {
+                fadeInAudio(audio, 3000);
+                document.body.style.backgroundColor = "#0f0f0f";
+                const heading = document.querySelector('h1');
+                heading.style.color = "#f0f0f0";
+
+                // checkbox.rainTimeoutId = window.setTimeout(function() {
+                //     const rain = $("#rain")[0];
+                //     fadeInAudioToVolume(rain, 10000, 0.25);
+                // }, 10000);
+                checkbox.pagliacciTimeoutId = window.setTimeout(function() {
+                    const pagliacci = $("#pagliacci")[0];
+                    fadeInAudioToVolume(pagliacci, 5000, 0.5);
+                    sleep(32000).then(() => {
+                        fadeOutAudio(pagliacci, 2000);
+                    });
+                }, 10000);
+
+            } else {
+                fadeOutAudio(audio, 1000);
+                fadeOutAudio($("#pagliacci")[0], 1000);
+                fadeOutAudio($("#rain")[0], 1000);
+                resetAudio($("#pagliacci")[0]);
+                resetAudio($("#rain")[0]);
+                document.body.style.backgroundColor = "#f0f0f0";
+                const heading = document.querySelector('h1');
+                heading.style.color = "#0f0f0f";
+                window.clearTimeout(checkbox.pagliacciTimeoutId);
+                window.clearTimeout(checkbox.rainTimeoutId);
+            }
+        }
+
+      </script>
+     
+</body>
+</html>
