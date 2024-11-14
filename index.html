@@ -92,7 +92,7 @@
 <body>
     <h1 style="text-align: center;">andrei mows the lawn</h1>
     <div class="container"></div>
-        <video playsinline muted autoplay loop class="responsive-video">
+        <video preload="auto" playsinline muted autoplay loop class="responsive-video">
             <source src="mow.mp4" type="video/mp4">
             no video :(
         </video>
@@ -107,7 +107,7 @@
     <div class="knob-container">
         <input type="button" class="dial" value="100">
         <label class="switch">
-            <input type="checkbox" id="night-check" onclick="toggleNocturne(this)">
+            <input type="checkbox" id="night-check">
             <span class="slider"></span>
         </label>
     </div>
@@ -186,33 +186,63 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        function toggleNocturne(checkbox) {
-            const audio = $("#audio")[0];
+        $(document).ready(function() {
+            $("#night-check").on("change", function () {
+                const audio = $("#audio")[0];
 
-            if (checkbox.checked) {
-                fadeInAudio(audio, 3000);
-                document.body.style.backgroundColor = "#0f0f0f";
-                const heading = document.querySelector('h1');
-                heading.style.color = "#f0f0f0";
+                if (this.checked) {
+                    fadeInAudio(audio, 3000);
+                    document.body.style.backgroundColor = "#0f0f0f";
+                    const heading = document.querySelector('h1');
+                    heading.style.color = "#f0f0f0";
 
-                checkbox.pagliacciTimeoutId = window.setTimeout(function() {
-                    const pagliacci = $("#pagliacci")[0];
-                    fadeInAudioToVolume(pagliacci, 5000, 0.5);
-                    sleep(33500).then(() => {
-                        fadeOutAudio(pagliacci, 500);
-                    });
-                }, 10000);
+                    this.pagliacciTimeoutId = window.setTimeout(function() {
+                        const pagliacci = $("#pagliacci")[0];
+                        fadeInAudioToVolume(pagliacci, 5000, 0.5);
+                        sleep(33500).then(() => {
+                            fadeOutAudio(pagliacci, 500);
+                        });
+                    }, 10000);
 
-            } else {
-                fadeOutAudio(audio, 1000);
-                fadeOutAudio($("#pagliacci")[0], 1000);
-                resetAudio($("#pagliacci")[0]);
-                document.body.style.backgroundColor = "#f0f0f0";
-                const heading = document.querySelector('h1');
-                heading.style.color = "#0f0f0f";
-                window.clearTimeout(checkbox.pagliacciTimeoutId);
-            }
-        }
+                } else {
+                    fadeOutAudio(audio, 1000);
+                    fadeOutAudio($("#pagliacci")[0], 1000);
+                    resetAudio($("#pagliacci")[0]);
+                    document.body.style.backgroundColor = "#f0f0f0";
+                    const heading = document.querySelector('h1');
+                    heading.style.color = "#0f0f0f";
+                    window.clearTimeout(this.pagliacciTimeoutId);
+                }
+            });
+        });
+
+        // document.getElementById("night-check").addEventListener("click", function() {
+        //     const audio = $("#audio")[0];
+
+        //     if (checkbox.checked) {
+        //         fadeInAudio(audio, 3000);
+        //         document.body.style.backgroundColor = "#0f0f0f";
+        //         const heading = document.querySelector('h1');
+        //         heading.style.color = "#f0f0f0";
+
+        //         checkbox.pagliacciTimeoutId = window.setTimeout(function() {
+        //             const pagliacci = $("#pagliacci")[0];
+        //             fadeInAudioToVolume(pagliacci, 5000, 0.5);
+        //             sleep(33500).then(() => {
+        //                 fadeOutAudio(pagliacci, 500);
+        //             });
+        //         }, 10000);
+
+        //     } else {
+        //         fadeOutAudio(audio, 1000);
+        //         fadeOutAudio($("#pagliacci")[0], 1000);
+        //         resetAudio($("#pagliacci")[0]);
+        //         document.body.style.backgroundColor = "#f0f0f0";
+        //         const heading = document.querySelector('h1');
+        //         heading.style.color = "#0f0f0f";
+        //         window.clearTimeout(checkbox.pagliacciTimeoutId);
+        //     }
+        // });
 
       </script>
      
