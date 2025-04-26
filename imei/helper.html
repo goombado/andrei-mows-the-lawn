@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*min-height: 100vh;*/
+}
+
+/*.content {*/
+/*    flex-grow: 1;*/
+/*    max-width: 800px;*/
+/*    margin: 0 auto;*/
+/*    padding: 1rem;*/
+/*}*/
+
+h1 {
+    margin-top: 2rem;
+    font-size: 2rem;
+    font-weight: normal;
+}
+form {
+    display: inline-block;
+    margin-top: 1rem;
+    text-align: left;
+}
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+select {
+    font-family: 'Montserrat', sans-serif;
+}
+select,
+textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    /*font-family: sans-serif;*/
+    font-size: 1rem;
+    background-color: #f5f5f5;
+}
+button {
+    display: block;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    background-color: #007aff;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0055ff;
+}
+
+footer {
+    background-color: #f5f5f5;
+    padding: 0.5rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-top: 150px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #666;
+    text-align: center;
+}
+
+label {
+    text-align: center;
+}
+
+
+.error {
+    outline: 1px solid red;
+}
+
+.error-text {
+    color: #ff0000;
+    font-size: 0.8rem;
+    text-align: left;
+    padding: 0 0 0.2rem;
+    margin: 0;
+}
+</style>
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<meta charset="UTF-8">
+
+<script>
+
+    function getSubstring(str) {
+        // console.log(str);
+        let index = 0;
+        try {
+            let space = false;
+            for (let i = 0; i < str.length; i++) {
+                if (str[i] === ' ' && space === false) {
+                    space = true;
+                }
+                else if (str[i] !== ' ' && space === true) {
+                    index = i;
+                    // console.log(i);
+                    // console.log(index);
+                    break;
+                }
+            }
+        }
+        catch(err) {
+            return str;
+        }
+
+        return str.slice(index);
+    }
+
+
+
+    // function stockToIMEI() {
+    //     var stockStr = document.getElementById("input").value;
+    //     let output_str = '';
+    //     try {
+    //     //   var description_regex = /^(?!\s)(?!\bIMEI\/Serials\b)\S+\s+([^\n\r]*[^\s]{3})/gm;
+    //         var description_regex = /^(?!\s)(?!\bIMEI\/Serials\b)(?:\S+\s+){2}([^\n\r]*[^\s]{3})/gm;
+    //         const quantity_regex = /^(?![\t\s]|IMEI\/Serials).*?\b(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s*$/gm;
+    //         const imei_regex = /\b\d{15}\b/gm;
+
+
+    //         const desc_matches_temp = stockStr.match(description_regex);
+    //         const desc_matches = [];
+    //         const quan_matches = stockStr.matchAll(quantity_regex);
+    //         const imei_matches = stockStr.match(imei_regex);
+    //     //   console.log(desc_matches);
+    //         for (let i=0;i<desc_matches_temp.length;i++) {
+    //             desc_matches.push(getSubstring(desc_matches_temp[i]));
+    //         }
+    //         console.log(desc_matches);
+    //         console.log(desc_matches.length);
+    //         console.log(quan_matches);
+    //         console.log(quan_matches.length);
+    //         console.log(imei_matches);
+    //         console.log(imei_matches.length);
+
+    //         const quantities = [];
+    //         for (const q of quan_matches) {
+    //             quantities.push(parseInt(q[3]));
+    //         }
+
+    //         let imei_count = 0;
+    //         for (let i = 0; i < desc_matches.length; i++) {
+    //             const device = desc_matches[i];
+    //             const quantity = quantities[i];
+    //             for (let j = 0; j < quantity; j++) {
+    //                 output_str += `${imei_matches[imei_count]}\n${device}\n`;
+    //                     // console.log(imei_matches[imei_count]);
+    //                     // console.log(device);
+    //                 imei_count += 1;
+    //             }
+    //         }
+
+    //         output_str = output_str.slice(0, -1);
+    //     }
+    //     catch(err) {
+    //         output_str = err.message;
+    //     }
+
+    //     document.getElementById("output").value = output_str;
+
+    function stockToIMEI() {
+        const DESCRIPTION_OFFSET = 29
+        const DESCRIPTION_END = 89
+        const IMEI_OFFSET = 29
+        const IMEI_LEN = 15
+        const DATE_OFFSET = 64
+        const DATE_LEN = 11
+        const QUANTITY_OFFSET = 129
+        const FINISH_OFFSET = 72
+
+        var stockStr = document.getElementById("input").value;
+        const stockArr = stockStr.split("\n");
+        var output_str = '';
+        var i = -1;
+        var l = null;
+        var desc = null;
+        var quan = null;
+
+        try {
+            while (i < stockArr.length) {
+                i++;
+                l = stockArr[i];
+                if (l.slice(0, FINISH_OFFSET).trim() === '') {
+                    break;
+                }
+
+                desc = l.slice(DESCRIPTION_OFFSET, DESCRIPTION_END).trim();
+                quan = parseInt(l[QUANTITY_OFFSET]);
+
+                // test is this is a serial item
+                nextLine = stockArr[i+1]
+                if (nextLine[0] === 'A' || nextLine[0] === 'P') {
+                    continue;
+                }
+
+                for (let j=0;j<quan;j++) {
+                    i++;
+                    l = stockArr[i];
+                    let imei = l.slice(IMEI_OFFSET, IMEI_OFFSET+IMEI_LEN)
+                    output_str += `${imei}\n${desc}\n`
+                }
+            }
+        } catch(err) {
+
+        }
+
+        document.getElementById("output").value = output_str.slice(0, -1);
+    }
+
+
+    function copyToClipboard() {
+        // Get the text field
+        var copyText = document.getElementById("output");
+
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+    }
+
+</script>
+
+<head>
+    <title>Stock to Text Guide</title>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #fff;
+            flex-wrap: wrap;
+        }
+
+        .list {
+            list-style-type: decimal;
+            text-align: left;
+            margin: 20px 395px;
+            padding: 0;
+            margin-bottom: 0;
+            flex-basis: 100px;
+        }
+
+        .textarea {
+            flex-basis: calc(50% - 10px);
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        .textarea-container {
+            padding: 10px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .button {
+            display: block;
+            margin: 10px auto 0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Stock to Text Guide</h1>
+    <h3>NOTE: For privacy reasons, no data is sent to any external servers. All generation is done on the device itself.</h3>
+    <div>
+        <ol class="list">
+            <li>Login to Back Office Pronto</li>
+            <li>Click on <strong>Inventory</strong> -> <strong>New Stocktake</strong> -> <strong>Warehouse Stock on Hand Report</strong></li>
+            <li>Leave <strong>Start Stock Code</strong> blank</li>
+            <li>Enter the following numbers for different devices into <strong>Start Stock Group</strong>:</li>
+            <ul>
+                <li><strong>3201</strong> - Phones and Tablets</li>
+                <li><strong>3299</strong> - Demo Devices</li>
+                <li><strong>7001</strong> - Modems</li>
+                <li><strong>8300</strong> - Wearables</li>
+            </ul>
+            <li>Keep pressing <em>Enter</em>, this will generate a stock report for your Warehouse</li>
+            <li>Press the <strong>Export</strong> button at the top of the report</li>
+            <li>Press <strong>OK</strong> and then <strong>Finish</strong>. This will open Excel with a list of Devices and IMEIs</li>
+            <li>Right click on Column A, and select <strong>Copy</strong></li>
+            <li>Paste into the text box below on the left, and press <strong>Generate</strong></li>
+            <li>You can now copy this text, and paste it in <a href="/imei">andrei.com.au/imei</a></li>
+
+        </ol>
+        <form>
+            <div class="container">
+                <div class="textarea-container">
+                    <textarea name="data" id="input" rows="20" cols="60" class="textarea" placeholder="Paste here..."></textarea>
+                    <div class="button-container">
+                        <button type="button" class="button" onclick="stockToIMEI()">Generate</button>
+                    </div>
+                </div>
+                <div class="textarea-container">
+                    <textarea name="output" id="output" rows="20" cols="60" class="textarea" readonly></textarea>
+                    <div class="button-container">
+                        <button type="button" class="button" onclick="copyToClipboard()">Copy to Clipboard</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <br>
+    <br>
+    </div>
+</body>
+
+<!--<footer>-->
+<!--    <p>If there are any issues with the website, email me at <a href="mailto:me@andrei.com.au">me@andrei.com.au</a>, or just tell me in person lol</p>-->
+<!--    <p>IMEI Barcode Generator by Andrei Agnew (and ChatGPT i guess)</p>-->
+<!--</footer>-->
+</html>
