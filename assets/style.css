@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
 :root {
-    --bg-color: #f9f9f9;
+    --bg-color: #f3f3f3;
     --text-color: #222222;
     --muted-color: #555555;
     --link-color: #007f0e;
@@ -19,9 +19,8 @@ body {
     line-height: 1.6;
 }
 .main-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    margin: 0 20rem;
+    padding: 1rem 0.5rem;
 }
 
 nav {
@@ -52,7 +51,7 @@ h1.site-title {
 }
 p.subtitle {
     font-style: italic;
-    font-size: 1.125rem;
+    font-size: 1.05rem;
     margin-bottom: 2rem;
     color: var(--muted-color);
 }
@@ -68,6 +67,15 @@ a {
 }
 a:hover {
     border-bottom-style: solid;
+}
+
+#happy {
+    color: var(--muted-color);
+    text-decoration: none;
+    border-bottom: none;
+}
+#happy {
+    cursor: pointer;
 }
   
 

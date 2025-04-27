@@ -5,8 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/style.css">
-    <title>andrei agnew</title>
+    <title>Andrei Agnew</title>
+    <script>
+        function changeHappy() {
+            var happy = document.getElementById('happy');
+            if (happy.innerText === ':D') {
+                happy.innerText = ' 😄';
+                happy.style.fontStyle = 'normal';
+                happy.style.fontSize = '0.9rem';
+            } else {
+                happy.innerText = ':D';
+                happy.style.fontStyle = 'italic';
+                happy.style.fontSize = '1.05rem';
+            }
+        }
+    </script>
 <body>
-    hello :D
+  <div class="main-container">
+
+    <nav>
+      <a href="/" class="active">Home</a>
+      <a href="/contact">Contact</a>
+      <a href="/mow">andrei mows the lawn</a>
+    </nav>
+
+    <!-- HEADER / HERO -->
+    <h1 class="site-title" style="text-align: right;">andrei agnew</h1>
+    <p class="subtitle" style="text-align: right;">programming | music | cool guy <a id='happy' onclick='changeHappy()'>:D</a></p>
+    <br><br>
+
+    <p>My name is Andrei Agnew. I'm a Computer Science / Software Engineering student at the University of Sydney. I'm also an active musician, as a member of the funk-rock band <a href="https://example.com/chaperone">CHAPERONE</a> and as a leader of the jazz band <a href="https://example.com/collective-good">The Collective Good</a>.</p>
+
+    <p>I like tinkering around with things I know nothing about and learning about that thing. It's so incredibly fun and rewarding. I like it a lot.</p>
+
+    <p>Here are a couple of things I've worked on.</p>
+
+    <!-- PROJECT SECTION -->
+    <h2 class="section-title">libcamera-async <em>(ongoing)</em></h2>
+    <p>About 10 years ago, a tool called RaspiMJPEG was developed, allowing Raspberry Pi microprocessors to fetch four simultaneous camera streams from any connected camera. Due to a lack of maintenance, this tool became unsupported across all modern Raspberry Pi's.</p>
+
+    <p>The new standard for interfacing with the Raspberry Pi camera is a tool called <a href="https://libcamera.org">libcamera</a>, a Raspberry Pi fork of the open source Linux framework of the same name. Notably, this …</p>
+
+    <!-- MORE SECTIONS -->
+    <!--
+    <h2 class="section-title">another-project <em>(completed)</em></h2>
+    <p>…project description…</p>
+    -->
+
+    <!-- FOOTER (optional) -->
+    <footer class="mt-lg">
+      <p class="text-center muted">&copy; 2025 Andrei Agnew</p>
+    </footer>
+
+  </div>
 </body>
 </html>
