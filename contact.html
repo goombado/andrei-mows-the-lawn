@@ -5,5 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/style.css">
-    <title>Contact</title>
+    <title>Andrei Agnew - Contact</title>
+    <script>
+        function changeHappy() {
+            var happy = document.getElementById('happy');
+            if (happy.innerText === ':D') {
+                happy.innerText = ' 😄';
+                happy.style.fontStyle = 'normal';
+                happy.style.fontSize = '0.9rem';
+            } else {
+                happy.innerText = ':D';
+                happy.style.fontStyle = 'italic';
+                happy.style.fontSize = '1.05rem';
+            }
+        }
+    </script>
 <body>
+  <div class="navbar-div" id="navbar-div">
+    <button class="burger" id="burger" aria-label="Toggle navigation">
+      ☰
+    </button>
+    <nav id="navbar" class="navbar">
+      <a href="/">Home</a>
+      <a href="/contact" class="active">Contact</a>
+      <a href="/mow">Andrei Mows the Lawn</a>
+      <a href="/imei">IMEI Barcode Generator</a>
+    </nav>
+  </div>
+
+  <main class="main-container">
+    <h1 class="site-title" style="text-align: right;">andrei agnew</h1>
+    <p class="subtitle" style="text-align: right;">programming | music | cool guy <a id='happy' onclick='changeHappy()'>:D</a></p>
+
+
+    <h1 class="section-title">Contact</h2>
+    <p>
+      If you want to get in touch, please send me an email at <a href="mailto:andreiagnew@outlook.com">andreiagnew@outlook.com</a>.
+      <br>
+      I can also be reached on <a href="https://www.linkedin.com/in/andrei-agnew-4515801aa">LinkedIn</a>.
+    </p>

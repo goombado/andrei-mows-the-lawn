@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&&display=swap');
 
 :root {
     --bg-color: #f3f3f3;
@@ -11,61 +11,140 @@
 }
 
 body {
-    margin: 0;
-    padding: 0;
     background: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-sans);
     line-height: 1.6;
 }
+
 .main-container {
     margin: 0 20rem;
     padding: 1rem 0.5rem;
 }
 
-nav {
+.navbar-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: flex-end;
-    gap: 2rem;
-    font-size: 1rem;
+    align-items: center;
+    background-color: transparent;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1000;
 }
-nav a {
+
+.navbar-div.scrolled {
+    background-color: black;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.burger {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.navbar {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar a {
     text-decoration: none;
     color: var(--text-color);
     font-weight: 400;
     transition: color .2s;
 }
-nav a:hover {
+
+.navbar-div.scrolled a {
+    color: white;
+}
+  
+.navbar a:hover {
     color: var(--link-color);
 }
-nav a.active {
+  
+.navbar a.active {
     font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .burger {
+        display: block;
+        margin-left: auto;
+    }
+  
+    .navbar {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: black;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 1rem 2rem;
+        width: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .navbar.show {
+        display: flex;
+        color: white;
+    }
+
+    .navbar a {
+        color: var(--text-color);
+    }
+    .navbar.show a {
+        color: white;
+    }
+}
+
+.main-container {
+    margin: 2rem auto auto auto;
+    max-width: 55%;
+    padding: 2rem 1rem;
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        max-width: 80%;
+    }
 }
 
 h1.site-title {
     font-family: var(--font-title);
     font-style: italic;
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin: 2rem 0 .25rem;
     color: var(--muted-color);
 }
-p.subtitle {
+
+.main-container p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.main-container p.subtitle {
     font-style: italic;
     font-size: 1.05rem;
     margin-bottom: 2rem;
     color: var(--muted-color);
 }
 
-p {
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-}
-a {
+.main-container a {
     color: var(--link-color);
     text-decoration: none;
     border-bottom: 1px dotted var(--link-color);
 }
-a:hover {
+.main-container a:hover {
     border-bottom-style: solid;
 }
 
@@ -77,24 +156,30 @@ a:hover {
 #happy {
     cursor: pointer;
 }
-  
+
+h1.section-title {
+    font-size: 2.5rem;
+    margin: 3rem 0 1rem;
+    font-weight: 600;
+    color: var(--link-color);
+}
 
 h2.section-title {
-    font-size: 2rem;
+    font-size: 1.6rem;
     margin: 3rem 0 1rem;
     font-weight: 600;
     color: var(--link-color);
 }
 h2.section-title em {
-    font-style: normal;
-    font-weight: 400;
-    color: var(--text-color);
-    margin-left: .5rem;
-    font-size: .875em;
+    font-style: italic;
 }
 
-.text-center { text-align: center; }
-.mt-sm  { margin-top: 1rem; }
-.mt-lg  { margin-top: 3rem; }
-.mb-sm  { margin-bottom: 1rem; }
-.mb-lg  { margin-bottom: 3rem; }
+footer {
+    margin-top: 3rem;
+    text-align: center;
+    color: var(--muted-color);
+}
+
+.spacer {
+    height: 0.5rem;
+}

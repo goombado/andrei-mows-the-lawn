@@ -21,43 +21,96 @@
         }
     </script>
 <body>
-  <div class="main-container">
-
-    <nav>
+  <div class="navbar-div" id="navbar-div">
+    <button class="burger" id="burger" aria-label="Toggle navigation">
+      ☰
+    </button>
+    <nav id="navbar" class="navbar">
       <a href="/" class="active">Home</a>
       <a href="/contact">Contact</a>
       <a href="/mow">Andrei Mows the Lawn</a>
-      <a hreg="/imei">IMEI Barcode Generator</a>
+      <a href="/imei">IMEI Barcode Generator</a>
     </nav>
-
-    <!-- HEADER / HERO -->
+  </div>
+  
+  <main class="main-container">
     <h1 class="site-title" style="text-align: right;">andrei agnew</h1>
     <p class="subtitle" style="text-align: right;">programming | music | cool guy <a id='happy' onclick='changeHappy()'>:D</a></p>
-    <br><br>
+    
+    <div class="spacer"></div>
 
-    <p>My name is Andrei Agnew. I'm a Computer Science / Software Engineering student at the University of Sydney. I'm also an active musician, as a member of the funk-rock band <a href="https://example.com/chaperone">CHAPERONE</a> and as a leader of the jazz band <a href="https://example.com/collective-good">The Collective Good</a>.</p>
+    <p>My name is Andrei Agnew. I'm a Computer Science / Software Engineering student at the University of Sydney. I'm also an active musician, as a member of the funk-rock band <a href="https://www.instagram.com/chaperone.band/">CHAPERONE</a> and as a leader of the jazz band <a href="https://www.instagram.com/thecollectivegood.band/">The Collective Good</a>.</p>
 
-    <p>I like tinkering around with things I know nothing about and learning about that thing. It's so incredibly fun and rewarding. I like it a lot.</p>
+    <p>I like tinkering around with things I know nothing about and learning about that thing. It's incredibly rewarding, and I owe a lot of my knowledge to this passion.</p>
 
     <p>Here are a couple of things I've worked on.</p>
+    
+    <div class="spacer"></div>
+    
+    <h2 class="section-title"><a href="https://github.com/goombado/rpicam-mjpeg">rpicam-mjpeg</a></h2>
+    <p>
+      RaspiMJPEG was a Raspberry Pi camera app built on the now-deprecated MMAL API, which has since been replaced by the more standardised V4L2 camera API in modern systems. Originally, RaspiMJPEG combined RaspiVid and RaspiStill into a single app that could handle up to three simultaneous camera streams in different pixel formats - a video recording stream, a still image capture stream, and an MJPEG preview stream. It also accepted commands through a named pipe, making it easy to control externally. A companion tool was developed for interacing with RaspiMJPEG, <a href="https://elinux.org/RPi-Cam-Web-Interface">RPi-Cam-Web-Interface</a>, but with the deprecation of the MMAL API this tool no longer works on modern Raspberry Pi systems.
+      <br><br>
+      Since the Pi 4, Raspberry Pi computers have shipped with <a href="https://www.raspberrypi.com/documentation/computers/camera_software.html">rpicam-apps</a>. This uses libcamera under the hood, a high level library for making V4L2 API calls. Libcamera however has set limitations on the number of simultaenous streams it can request from a camera, meaning a custom tool would need to be created to replicate the previous behaviour of RaspiMJPEG. <a href="https://github.com/goombado/rpicam-mjpeg">rpicam-mjpeg</a> tries to reintroduce this functionality, utilising a RAW pixel data stream that libcamera makes available to emulate the three-stream functionality of its predecessor.
+    </p>
 
-    <!-- PROJECT SECTION -->
-    <h2 class="section-title">libcamera-async <em>(ongoing)</em></h2>
-    <p>About 10 years ago, a tool called RaspiMJPEG was developed, allowing Raspberry Pi microprocessors to fetch four simultaneous camera streams from any connected camera. Due to a lack of maintenance, this tool became unsupported across all modern Raspberry Pi's.</p>
+    <div class="spacer"></div>
+    
+    <h2 class="section-title"><a href="/imei">IMEI Barcode Generator</a></h2>
+    <p>
+      At my old job at a certain Australian telecommunications provider, the inventory tracking system was not great. We would regularly receive new stock of phones, and laboriously count each phone every Monday. One of the biggest pain points of this count was the placement of the IMEI barcode on the phones themselves. They would often be on the bottom of the phone, meaning there was no easy way to scan each barcode that didn't involve taking each phone out our storage. If these barcodes were on the short-edge of the phone, we would easily be able to scan each one without taking them out of storage.
+      <br><br>
+      To help fix this I created a small tool called <a href="/imei">IMEI Barcode Generator.</a>. The idea is that we would scan each phone's IMEI into this web tool upon receiving stock, along with its name. The tool would then generate a PDF with a barcode for each IMEI, which we could print and stick to the short edge of the phone. I made an extension to the tool that took a terribly formatted CSV file of IMEIs from our store inventory system, and converted it into a format that the tool could use. Notably, no data was ever stored or sent to another server, and all processing is done in JS in the browser.
+      <br><br>
+      I don't work at this job anymore, but from reports of old coworkers the tool is still being used in multiple stores. It's a nice feeling.
+    </p>
 
-    <p>The new standard for interfacing with the Raspberry Pi camera is a tool called <a href="https://libcamera.org">libcamera</a>, a Raspberry Pi fork of the open source Linux framework of the same name. Notably, this …</p>
+    <div class="spacer"></div>
 
-    <!-- MORE SECTIONS -->
-    <!--
-    <h2 class="section-title">another-project <em>(completed)</em></h2>
-    <p>…project description…</p>
-    -->
+    <h2 class="section-title"><a href="/mow">Andrei Mows the Lawn</a></h2>
+    <p>
+      I think I look pretty silly when I mow the lawn. To really convey this, I filmed myself mowing my lawn and added some controls for changing the rate at which I mow the lawn. My initial challenge for making this website was diguring out exactly which <a href="https://ffmpeg.org/">ffmpeg</a> parameters to tweak. I wanted a high quality video of me mowing the lawn, but I didn't want it to destroy my friends' data.
+      <br><br>
+      The more I worked on this project, the more I saw that there was a unique sadness in watching a little Andrei mow the lawn ad infinitum. I channelled this sadness into a single toggle, which I encourage you to press on the page. I learnt a lot about CSS magic with this one, and I'm very proud of how the subtitle feature came out.
+    </p>
 
-    <!-- FOOTER (optional) -->
-    <footer class="mt-lg">
-      <p class="text-center muted">&copy; 2025 Andrei Agnew</p>
-    </footer>
+    <div class="spacer"></div>
 
-  </div>
+    <h2 class="section-title"><em><a href="https://github.com/goombado/BarneyBot">BarneyBot</a></em> - The World's Worst Discord Bot (probably)</h2>
+    <p>
+      In 2020 I was in my final year of high school. In 2020 we had to stay inside. In 2020 I got very bored, very quickly...
+      
+      I wanted to improve my programming in an engaging way that my friends and I could all interact with. So I cobbled together Barney. It was a phenomenal thrown-in-the-deep-end learning experience, and I had so much fun being completely out of my depth. I did a little write up on its features and the things I learnt <a href="https://github.com/goombado/BarneyBot">over on my GitHub</a> if you'd like to check it out.
+    </p>
+
+
+  </main>
+
+  <footer class="mt-lg">
+    <p class="text-center muted">&copy; 2025 Andrei Agnew</p>
+  </footer>
+
+  <script>
+    const navbarDiv = document.getElementById('navbar-div');
+    const title = document.querySelector('.site-title');
+
+    window.addEventListener('scroll', () => {
+        const titleBottom = title.getBoundingClientRect().top;
+        const navbarHeight = navbarDiv.offsetHeight;
+
+        if (titleBottom < navbarHeight) {
+            navbarDiv.classList.add('scrolled');
+        } else {
+            navbarDiv.classList.remove('scrolled');
+        }
+    });
+
+    const burger = document.getElementById("burger");
+    const navbar = document.getElementById("navbar");
+    burger.addEventListener("click", () => {
+      navbar.classList.toggle("show");
+    });
+  </script>
+
 </body>
 </html>
